@@ -2,10 +2,12 @@ function Coin( x, y, radius ){
 	this.radius = radius;
 	
 	var options = {
-		friction: 1,
-		restitution: .5,
-		isStatic: false
+		density: 0.05,
+		friction: 0.01,
+		frictionAir: 0.00001,
+		restitution: 0.1,
 	};
+
 	// this.body = Bodies.circle( x, y, radius, [options], [maxSides] );
 	this.body = Bodies.circle ( x, y, radius, options );
 	World.add( world, this.body );
