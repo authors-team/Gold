@@ -60,8 +60,31 @@ function Ragdoll(x, y, scale, options) {
   });
 
 
-  var head = Bodies.rectangle(x, y - 60 * scale, 34 * scale, 40 * scale, headOptions);
-  var chest = Bodies.rectangle(x, y, 55 * scale, 80 * scale, chestOptions);
+  this.bodyLibrary ={
+    head: {
+      xOffset: x + 0,
+      yOffset: y - 60,
+      xScale: scale * 34,
+      yScale: scale * 40
+    },
+    chest:{
+      xOffset: 0,
+      yOffset: 0, 
+      xScale: 55,
+      yScale: 80
+    },
+    rightUpperArm:{
+      xOffset: 39,
+      yOffset: -15, 
+      xScale: 20,
+      yScale: 40      
+    }
+  }
+
+  
+  var hLib = this.bodyLibrary.head;
+  var head = Bodies.rectangle( hLib.xOffset, hLib.yOffset, hLib.xScale, hLib.yScale, headOptions);
+  var chest = Bodies.rectangle( x, y, 55 * scale, 80 * scale, chestOptions);
   var rightUpperArm = Bodies.rectangle(x + 39 * scale, y - 15 * scale, 20 * scale, 40 * scale, rightUpperArmOptions);
   var rightLowerArm = Bodies.rectangle(x + 39 * scale, y + 25 * scale, 20 * scale, 60 * scale, rightLowerArmOptions);
   var leftUpperArm = Bodies.rectangle(x - 39 * scale, y - 15 * scale, 20 * scale, 40 * scale, leftUpperArmOptions);
@@ -82,10 +105,7 @@ function Ragdoll(x, y, scale, options) {
           y: -8 * scale
       },
       bodyB: rightUpperArm,
-      stiffness: 0.6,
-      render: {
-          visible: false
-      }
+      stiffness: 0.6
   });
 
   var chestToLeftUpperArm = Constraint.create({
@@ -99,10 +119,7 @@ function Ragdoll(x, y, scale, options) {
           y: -8 * scale
       },
       bodyB: leftUpperArm,
-      stiffness: 0.6,
-      render: {
-          visible: false
-      }
+      stiffness: 0.6
   });
 
   var chestToLeftUpperLeg = Constraint.create({
@@ -116,10 +133,7 @@ function Ragdoll(x, y, scale, options) {
           y: -10 * scale
       },
       bodyB: leftUpperLeg,
-      stiffness: 0.6,
-      render: {
-          visible: false
-      }
+      stiffness: 0.6
   });
 
   var chestToRightUpperLeg = Constraint.create({
@@ -133,10 +147,7 @@ function Ragdoll(x, y, scale, options) {
           y: -10 * scale
       },
       bodyB: rightUpperLeg,
-      stiffness: 0.6,
-      render: {
-          visible: false
-      }
+      stiffness: 0.6
   });
 
   var upperToLowerRightArm = Constraint.create({
@@ -150,10 +161,7 @@ function Ragdoll(x, y, scale, options) {
           x: 0,
           y: -25 * scale
       },
-      stiffness: 0.6,
-      render: {
-          visible: false
-      }
+      stiffness: 0.6
   });
 
   var upperToLowerLeftArm = Constraint.create({
@@ -167,10 +175,7 @@ function Ragdoll(x, y, scale, options) {
           x: 0,
           y: -25 * scale
       },
-      stiffness: 0.6,
-      render: {
-          visible: false
-      }
+      stiffness: 0.6
   });
 
   var upperToLowerLeftLeg = Constraint.create({
@@ -184,10 +189,7 @@ function Ragdoll(x, y, scale, options) {
           x: 0,
           y: -20 * scale
       },
-      stiffness: 0.6,
-      render: {
-          visible: false
-      }
+      stiffness: 0.6
   });
 
   var upperToLowerRightLeg = Constraint.create({
@@ -201,10 +203,7 @@ function Ragdoll(x, y, scale, options) {
           x: 0,
           y: -20 * scale
       },
-      stiffness: 0.6,
-      render: {
-          visible: false
-      }
+      stiffness: 0.6
   });
 
   var headContraint = Constraint.create({
@@ -218,20 +217,15 @@ function Ragdoll(x, y, scale, options) {
           y: -35 * scale
       },
       bodyB: chest,
-      stiffness: 0.6,
-      render: {
-          visible: false
-      }
+      stiffness: 0.6
   });
 
   var legToLeg = Constraint.create({
       bodyA: leftLowerLeg,
       bodyB: rightLowerLeg,
-      stiffness: 0.01,
-      render: {
-          visible: false
-      }
+      stiffness: 0.01
   });
+
 
   this.person = Composite.create({
       bodies: [
@@ -248,17 +242,22 @@ function Ragdoll(x, y, scale, options) {
           legToLeg
       ]
   });
+
+  World.add( world, this.person );
 }
 
 Ragdoll.prototype.show = function(){
-  pos = this.body.position;
+  var pos = this.person.bodies[1].position;
+  var angle = this.person.bodies[1].angle;
+  var lib = this.bodyLibrary.head;
   push();
-  translate( pos.x, pos.y );
-  rectMode(CENTER);
-  noStroke();
-  circle( 0, 0, this.radius );
-  fill(127);
-
+    translate( pos.x, pos.y );
+    rotate(angle);
+    rectMode(CENTER);
+    strokeWeight(1);
+    stroke(255);
+    fill(127);
+    rect(0, 0, lib.xScale, lib.yScale);
   pop();
 }
 

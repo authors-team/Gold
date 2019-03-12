@@ -71,6 +71,7 @@ function draw() {
     line(coin.body.position.x + offset.x, coin.body.position.y + offset.y, m.x, m.y);
   }
   
+  ragdoll.show();
   coin.show();
   noStroke(255);
   fill(170);
