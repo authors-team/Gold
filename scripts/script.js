@@ -19,6 +19,70 @@ var coin;
 var radius = 20;
 var ragdoll;
 
+var ragdollLibrary = [
+    {
+      label: 'head',
+      x: 0,
+      y: -60,
+      xSize: 34,
+      ySize: 40
+    },{
+      label: 'chest',
+      x: 0,
+      y: 0, 
+      xSize: 55,
+      ySize: 80
+    },{
+      label: 'rightUpperArm:',
+      x: 39,
+      y: -15, 
+      xSize: 20,
+      ySize: 40      
+    },{
+      label: 'rightLowerArm:',
+      x: 39,
+      y: 25, 
+      xSize: 20,
+      ySize: 60 
+    },{
+      label: 'leftUpperArm:',
+      x: -39,
+      y: -15, 
+      xSize: 20,
+      ySize: 40       
+    },{
+      label: 'rightLowerArm:',
+      x: -39,
+      y: 25, 
+      xSize: 20,
+      ySize: 60      
+    },{
+      label: 'leftUpperLeg',
+      x: -20,
+      y: 57, 
+      xSize: 20,
+      ySize: 40  
+    },{
+      label: 'leftLowerLeg:',
+      x: -20,
+      y: 97, 
+      xSize: 20,
+      ySize: 60  
+    },{
+      label: 'rightUpperLeg',
+      x: 20,
+      y: 57, 
+      xSize: 20,
+      ySize: 40       
+    },{
+      label: 'rightLowerLeg:',
+      x: 20,
+      y: 97, 
+      xSize: 20,
+      ySize: 60  
+    }
+  ];
+
 function setup() {
   var canvas = createCanvas(windowWidth, windowHeight);
   engine = Engine.create();
@@ -44,9 +108,8 @@ function setup() {
   // mouseConstraint.mouse.element.removeEventListener("mousewheel", mouseConstraint.mouse.mousewheel);
   // mouseConstraint.mouse.element.removeEventListener("DOMMouseScroll", mouseConstraint.mouse.mousewheel);
 
-
-  ragdoll = new Ragdoll( width / 2, height / 2 );
-  coin = new Coin( width / 2, 100, radius );
+  ragdoll = new Ragdoll(ragdollLibrary, width / 2, height / 2 );
+  // coin = new Coin( width / 2, 100, radius );
 
   var options = {
     isStatic: true
@@ -54,25 +117,23 @@ function setup() {
   ground = Bodies.rectangle( width / 2, height, width, 100, options);
 
   World.add( world, [ mouseConstraint, ground ] );
+  // World.add( world, ground );
 }
 
 function draw() {
   background(51);
   Engine.update(engine);
 
-  if ( coin.isOffScreen() ){}
-
   if ( mouseConstraint.body ) { // is there a body selected?
-  	// console.log("true");
     var pos = mouseConstraint.body.position;
     var offset = mouseConstraint.constraint.pointB;
     var m = mouseConstraint.mouse.position;
     stroke(0, 255, 0);
-    line(coin.body.position.x + offset.x, coin.body.position.y + offset.y, m.x, m.y);
+    // line(coin.body.position.x + offset.x, coin.body.position.y + offset.y, m.x, m.y);
   }
   
   ragdoll.show();
-  coin.show();
+  // coin.show();
   noStroke(255);
   fill(170);
   rectMode(CENTER);
