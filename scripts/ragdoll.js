@@ -1,7 +1,7 @@
 class Ragdoll {
   constructor( lib, x, y, scale, options ){
     this._library = lib;
-    scale = typeof scale === 'undefined' ? 1 : scale;
+    this._scale = scale = typeof scale === 'undefined' ? 1 : scale;
     let bodies = [];
 
     let headOptions = Common.extend({
@@ -62,30 +62,14 @@ class Ragdoll {
       label: 'right-lower-leg'
     });
 
-    for (let i = 0; i < this._library.length; i++) {
+    for (let i = 0; i < this._library.length; i++ ) {
       let lib = this._library[i];
       let opts = {
         label: lib.label
       }
-      let body = Bodies.rectangle( x + lib.x, y + lib.y, scale * lib.xSize, scale * lib.ySize, opts );
+      let body = Bodies.rectangle( x + this._scale * lib.x, y + this._scale * lib.y,  this._scale * lib.xSize,  this._scale * lib.ySize, opts );
       bodies.push( body );
     }
-
-    // let hLib = this._library[0];
-    // let head = Bodies.rectangle( x + hLib.xOffset, y + hLib.yOffset, scale * hLib.xScale, scale * hLib.ySize, headOptions);
-
-    // let cLib = this._library[1];
-    // let chest = Bodies.rectangle( x + cLib.xOffset, y + cLib.yOffset, scale * cLib.xScale, scale * cLib.ySize, chestOptions);
-
-    // let ruaLib = this._library[2];
-    // let rightUpperArm = Bodies.rectangle(x + 39 * scale, y - 15 * scale, 20 * scale, 40 * scale, rightUpperArmOptions);
-    // let rightLowerArm = Bodies.rectangle(x + 39 * scale, y + 25 * scale, 20 * scale, 60 * scale, rightLowerArmOptions);
-    // let leftUpperArm = Bodies.rectangle(x - 39 * scale, y - 15 * scale, 20 * scale, 40 * scale, leftUpperArmOptions);
-    // let leftLowerArm = Bodies.rectangle(x - 39 * scale, y + 25 * scale, 20 * scale, 60 * scale, leftLowerArmOptions);
-    // let leftUpperLeg = Bodies.rectangle(x - 20 * scale, y + 57 * scale, 20 * scale, 40 * scale, leftUpperLegOptions);
-    // let leftLowerLeg = Bodies.rectangle(x - 20 * scale, y + 97 * scale, 20 * scale, 60 * scale, leftLowerLegOptions);
-    // let rightUpperLeg = Bodies.rectangle(x + 20 * scale, y + 57 * scale, 20 * scale, 40 * scale, rightUpperLegOptions);
-    // let rightLowerLeg = Bodies.rectangle(x + 20 * scale, y + 97 * scale, 20 * scale, 60 * scale, rightLowerLegOptions);
 
     // let chestToRightUpperArm = Constraint.create({
     //     bodyA: chest,
@@ -258,7 +242,7 @@ class Ragdoll {
         strokeWeight(1);
         stroke(255);
         fill(127);
-        rect(0, 0, lib.xSize, lib.ySize);
+        rect(0, 0, this._scale * lib.xSize, this._scale *  lib.ySize);
       pop();        
     }
   }

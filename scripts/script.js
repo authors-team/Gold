@@ -25,7 +25,7 @@ var ragdollLibrary = [
       x: 0,
       y: -60,
       xSize: 34,
-      ySize: 40
+      ySize: 40,
     },{
       label: 'chest',
       x: 0,
@@ -108,7 +108,7 @@ function setup() {
   // mouseConstraint.mouse.element.removeEventListener("mousewheel", mouseConstraint.mouse.mousewheel);
   // mouseConstraint.mouse.element.removeEventListener("DOMMouseScroll", mouseConstraint.mouse.mousewheel);
 
-  ragdoll = new Ragdoll(ragdollLibrary, width / 2, height / 2 );
+  ragdoll = new Ragdoll(ragdollLibrary, width / 2, height / 2, 1 );
   // coin = new Coin( width / 2, 100, radius );
 
   var options = {
