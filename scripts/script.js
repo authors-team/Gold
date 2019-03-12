@@ -1,16 +1,14 @@
 
 var Engine = Matter.Engine,
-    Events = Matter.Events,
-    Runner = Matter.Runner,
+    World = Matter.World,
+    Bodies = Matter.Bodies,
     Body = Matter.Body,
     Common = Matter.Common,
     Composite = Matter.Composite,
-    Composites = Matter.Composites,
     Constraint = Matter.Constraint,
-    MouseConstraint = Matter.MouseConstraint,
     Mouse = Matter.Mouse,
-    World = Matter.World,
-    Bodies = Matter.Bodies;
+    MouseConstraint = Matter.MouseConstraint;
+
         
 var engine,
 		world,
@@ -19,6 +17,7 @@ var engine,
 var ground;
 var coin;
 var radius = 20;
+var ragdoll;
 
 function setup() {
   var canvas = createCanvas(windowWidth, windowHeight);
@@ -26,8 +25,8 @@ function setup() {
   world = engine.world;
 
   //////	 MOUSE 	//////
-  var canvasMouse = Mouse.create( canvas.elt );
-  canvasMouse.pixelRatio = pixelDensity(); // accounting for high res monitors. Thanks Dan Shiffman!
+  var canvasMouse = Mouse.create( canvas.elt ); // get canvas from p5
+  canvasMouse.pixelRatio = pixelDensity(); // accounting for high res monitors
 
   var options = {
   	mouse: canvasMouse,
@@ -46,15 +45,13 @@ function setup() {
   // mouseConstraint.mouse.element.removeEventListener("DOMMouseScroll", mouseConstraint.mouse.mousewheel);
 
 
-
+  ragdoll = new Ragdoll( width / 2, height / 2 );
   coin = new Coin( width / 2, 100, radius );
 
   var options = {
     isStatic: true
   }
   ground = Bodies.rectangle( width / 2, height, width, 100, options);
-
-
 
   World.add( world, [ mouseConstraint, ground ] );
 }
@@ -65,8 +62,8 @@ function draw() {
 
   if ( coin.isOffScreen() ){}
 
-  if ( mouseConstraint.body ) {
-  	console.log("true");
+  if ( mouseConstraint.body ) { // is there a body selected?
+  	// console.log("true");
     var pos = mouseConstraint.body.position;
     var offset = mouseConstraint.constraint.pointB;
     var m = mouseConstraint.mouse.position;
