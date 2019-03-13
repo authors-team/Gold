@@ -20,80 +20,75 @@ var ragdoll;
 
 var ragdollLib = {
   bodyparts:    [
-                  { x: 0, y: -65, xSize: 34,  ySize: 40, 
+                  { x: 0, y: -65, xSize: 50,  ySize: 40, 
                     options:  {
                                 label: 'head',
-                                isStatic: false, 
-                                chamfer: { radius: 15 },
+                                chamfer: { radius: 20 },
                                 collisionFilter: { group: 1 }
                               } 
                   },
                   { x: 0, y: 0, xSize: 55,  ySize: 80, 
                     options:  {
                                 label: 'chest',
-                                restitution: 0.9, 
+                                friction: .5,
                                 chamfer: { radius: 25 },
-                                collisionFilter: { group: -1 }
+                                collisionFilter: { group: 1 }
                               } 
                   },
                   { x: -45, y: -15, xSize: 20, ySize: 40, 
                     options:  {
                                 label: 'leftUpperArm',
-                                restitution: 0.9,   
                                 chamfer: { radius: 10 },
-                                collisionFilter: { group: -1 }
+                                collisionFilter: { group: 1 }
                               } 
                   },
                   { x: -45, y: 40, xSize: 20, ySize: 60, 
                     options:  { 
                                 label: 'leftLowerArm',
-                                restitution: 0.9,
-                                collisionFilter: { group: -1 }
+                                hamfer: { radius: 10 },
+                                collisionFilter: { group: 1 }
                               } 
                   },
                   { x: 45, y: -15, xSize: 20, ySize: 40,
                     options:  {
                                 label: 'rightUpperArm',
-                                restitution: 0.9,  
                                 chamfer: { radius: 10 },
-                                collisionFilter: { group: -1 }
+                                collisionFilter: { group: 1 }
                               } 
                   },
                   { x: 45, y: 40, xSize: 20, ySize: 60, 
                     options:  { 
                                 label: 'rightLowerArm',
-                                restitution: 0.9,
-                                collisionFilter: { group: -1 }
+                                hamfer: { radius: 10 },
+                                collisionFilter: { group: 1 }
                               } 
                   },
                   { x: -15, y: 65, xSize: 20, ySize: 40, 
                     options:  {
                                 label: 'leftUpperLeg',
-                                restitution: 0.9,  
-                                chamfer: { radius: 10 },
-                                collisionFilter: { group: -1 }
+                                 chamfer: { radius: 10 },
+                                collisionFilter: { group: 1 }
                               } 
                   },
                   { x: -20, y: 120, xSize: 20, ySize: 60,
                     options:  { 
                                 label: 'leftLowerLeg',
-                                restitution: 0.9,
-                                collisionFilter: { group: -1 }
+                                hamfer: { radius: 10 },
+                                collisionFilter: { group: 1 }
                               } 
                   },
                   { x: 15, y: 65, xSize: 20, ySize: 40, 
                     options:  {
                                 label: 'rightUpperLeg',
-                                restitution: 0.9, 
                                 chamfer: { radius: 10 },
-                                collisionFilter: { group: -1 }
+                                collisionFilter: { group: 1 }
                               } 
                   },
                   { x: 20, y: 120, xSize: 20, ySize: 60,
                     options:  { 
                                 label: 'rightLowerLeg',
-                                restitution: 0.9,
-                                collisionFilter: { group: -1 }
+                                hamfer: { radius: 10 },
+                                collisionFilter: { group: 1 }
                               } 
                   },
                 ],
@@ -111,6 +106,7 @@ var ragdollLib = {
                 ]
 };
 
+
 function setup() {
   var canvas = createCanvas(windowWidth, windowHeight);
   engine = Engine.create();
@@ -120,12 +116,12 @@ function setup() {
   var canvasMouse = Mouse.create( canvas.elt ); // get canvas from p5
   canvasMouse.pixelRatio = pixelDensity(); // accounting for high res monitors
 
-  var options = {
+  let options = {
   	mouse: canvasMouse,
   	constraint: {
-			stiffness: 0.2,
-			length: 0.5,
-			angularStiffness: 0.0,
+			stiffness: 0.1,
+			length: 0.1,
+			angularStiffness: 0.2,
 			render: {
 			    visible: false
 			}
@@ -136,10 +132,15 @@ function setup() {
   // mouseConstraint.mouse.element.removeEventListener("mousewheel", mouseConstraint.mouse.mousewheel);
   // mouseConstraint.mouse.element.removeEventListener("DOMMouseScroll", mouseConstraint.mouse.mousewheel);
 
-  ragdoll = new Ragdoll( ragdollLib, width / 2, height / 2, 1 );
+  options = {
+    isStatic: false,
+    friction: 1.0,
+    restitution: 0.9
+  }
+  ragdoll = new Ragdoll( ragdollLib, width / 2, height / 2, 1, options );
   // coin = new Coin( width / 2, 100, radius );
 
-  var options = {
+  options = {
     isStatic: true
   }
   ground = Bodies.rectangle( width / 2, height, width, 100, options);
